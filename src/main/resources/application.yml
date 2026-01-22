@@ -26,3 +26,7 @@ spring:
           format_sql: true
           jdbc:
             time_zone: UTC
+
+logging:
+  level:
+    com.zaxxer.hikari: DEBUG
