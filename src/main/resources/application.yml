@@ -1,0 +1,28 @@
+spring:
+  application:
+    name: portfolio-service
+  datasource:
+    url: jdbc:mysql://localhost:3306/portfolio?useSSL=false&allowPublicKeyRetrieval=true&serverTimezone=UTC
+    username: root
+    password: root
+    driver-class-name: com.mysql.cj.jdbc.Driver
+
+    hikari:
+      pool-name: PortfolioHikariPool
+      minimum-idle: 2
+      maximum-pool-size: 10
+      idle-timeout: 600000        # 10 minutes
+      max-lifetime: 1800000       # 30 minutes
+      connection-timeout: 30000   # 30 seconds
+      validation-timeout: 5000
+      auto-commit: true
+
+    jpa:
+      hibernate:
+        ddl-auto: validate
+      show-sql: true
+      properties:
+        hibernate:
+          format_sql: true
+          jdbc:
+            time_zone: UTC
