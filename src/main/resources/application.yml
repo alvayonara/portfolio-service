@@ -1,32 +1,36 @@
 spring:
   application:
     name: portfolio-service
+
   datasource:
     url: jdbc:mysql://localhost:3306/portfolio?useSSL=false&allowPublicKeyRetrieval=true&serverTimezone=UTC
     username: root
-    password: root
+    password:
     driver-class-name: com.mysql.cj.jdbc.Driver
-
     hikari:
       pool-name: PortfolioHikariPool
       minimum-idle: 2
       maximum-pool-size: 10
-      idle-timeout: 600000        # 10 minutes
-      max-lifetime: 1800000       # 30 minutes
-      connection-timeout: 30000   # 30 seconds
+      idle-timeout: 600000          # 10 minutes
+      max-lifetime: 1800000         # 30 minutes
+      connection-timeout: 30000     # 30 seconds
       validation-timeout: 5000
       auto-commit: true
+      transaction-isolation: TRANSACTION_READ_COMMITTED
 
-    jpa:
+  jpa:
+    hibernate:
+      ddl-auto: update
+    open-in-view: false
+    show-sql: true
+    properties:
       hibernate:
-        ddl-auto: validate
-      show-sql: true
-      properties:
-        hibernate:
-          format_sql: true
-          jdbc:
-            time_zone: UTC
+        format_sql: true
+        jdbc:
+          time_zone: UTC
 
 logging:
   level:
     com.zaxxer.hikari: DEBUG
+    org.hibernate.SQL: DEBUG
+    org.hibernate.orm.jdbc.bind: TRACE
