@@ -10,6 +10,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import reactor.core.publisher.Mono;
 
+import java.util.List;
+
 @RestController
 @RequestMapping("/auth")
 public class AuthController {
@@ -22,7 +24,9 @@ public class AuthController {
         if (!"admin".equals(request.username()) || !"password".equals(request.password())) {
             return Mono.error(new RuntimeException("Invalid credentials"));
         }
-        String token = jwtUtil.generateToken(request.username());
+        // TODO: Temp logic, change later
+        List<String> roles = List.of("ADMIN");
+        String token = jwtUtil.generateToken(request.username(), roles);
         return Mono.just(new AuthResponse(token));
     }
 }
