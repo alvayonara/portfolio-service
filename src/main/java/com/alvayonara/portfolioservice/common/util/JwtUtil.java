@@ -9,17 +9,19 @@ import org.springframework.security.oauth2.jwt.JwtEncoderParameters;
 import org.springframework.stereotype.Component;
 
 import java.time.Instant;
+import java.util.List;
 
 @Component
 public class JwtUtil {
     @Autowired
     private JwtEncoder jwtEncoder;
 
-    public String generateToken(String subject) {
+    public String generateToken(String subject, List<String> roles) {
         Instant now = Instant.now();
         JwtClaimsSet claims = JwtClaimsSet.builder()
                 .issuer("portfolio-service")
                 .subject(subject)
+                .claim("roles", roles)
                 .issuedAt(now)
                 .expiresAt(now.plusSeconds(3600))
                 .build();

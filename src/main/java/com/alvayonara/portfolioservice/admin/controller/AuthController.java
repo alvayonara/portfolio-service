@@ -2,7 +2,7 @@ package com.alvayonara.portfolioservice.admin.controller;
 
 import com.alvayonara.portfolioservice.admin.dto.AuthRequest;
 import com.alvayonara.portfolioservice.admin.dto.AuthResponse;
-import com.alvayonara.portfolioservice.common.util.JwtUtil;
+import com.alvayonara.portfolioservice.admin.service.AuthService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -14,15 +14,10 @@ import reactor.core.publisher.Mono;
 @RequestMapping("/auth")
 public class AuthController {
     @Autowired
-    private JwtUtil jwtUtil;
+    private AuthService authService;
 
     @PostMapping("/login")
     public Mono<AuthResponse> login(@RequestBody AuthRequest request) {
-        // TODO: Temp logic, change later
-        if (!"admin".equals(request.username()) || !"password".equals(request.password())) {
-            return Mono.error(new RuntimeException("Invalid credentials"));
-        }
-        String token = jwtUtil.generateToken(request.username());
-        return Mono.just(new AuthResponse(token));
+        return authService.login(request.username(), request.password()).map(AuthResponse::new);
     }
 }
