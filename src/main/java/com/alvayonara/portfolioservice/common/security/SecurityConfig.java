@@ -12,9 +12,14 @@ public class SecurityConfig {
     @Bean
     public SecurityWebFilterChain securityWebFilterChain(ServerHttpSecurity http, ReactiveJwtDecoder jwtDecoder, ReactiveJwtAuthenticationConverter jwtAuthConverter) {
         return http.csrf(ServerHttpSecurity.CsrfSpec::disable)
-                .authorizeExchange(exchange -> exchange
-                        .pathMatchers("/auth/**").permitAll()
-                        .pathMatchers("/projects").permitAll()
+                .authorizeExchange(exchanges -> exchanges
+                        .pathMatchers(
+                                "/portfolio/**",
+                                "/projects/**",
+                                "/profile/**",
+                                "/auth/**"
+                        ).permitAll()
+                        .pathMatchers("/admin/**").hasRole("ADMIN")
                         .anyExchange().authenticated()
                 )
                 .oauth2ResourceServer(oauth2 -> oauth2.jwt(jwt -> jwt

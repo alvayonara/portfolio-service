@@ -8,6 +8,8 @@ public class PortfolioServiceApplication {
 
     public static void main(String[] args) {
         SpringApplication.run(PortfolioServiceApplication.class, args);
-    }
 
+//        BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
+//        System.out.println(encoder.encode("xxxxxx"));
+    }
 }
