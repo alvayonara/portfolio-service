@@ -15,6 +15,7 @@ public class Project {
     private String description;
     private String techStack;
     private String repoUrl;
+    private Boolean published = false;
     private Instant createdAt;
     private Instant updatedAt;
 }

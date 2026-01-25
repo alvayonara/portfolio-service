@@ -21,6 +21,7 @@ public class ProjectService {
     public Mono<Project> create(Project project) {
         project.setCreatedAt(Instant.now());
         project.setUpdatedAt(Instant.now());
+        project.setPublished(false);
         return projectRepository.save(project)
                 .doOnSuccess(p -> log.debug("Project created with id {}", p.getId()));
     }
@@ -53,5 +54,23 @@ public class ProjectService {
     @PreAuthorize("hasRole('ADMIN')")
     public Mono<Void> delete(Long id) {
         return projectRepository.deleteById(id);
+    }
+
+    @PreAuthorize("hasRole('ADMIN')")
+    public Mono<Project> publish(Long id) {
+        return getById(id).flatMap(project -> {
+            project.setPublished(true);
+            project.setUpdatedAt(Instant.now());
+            return projectRepository.save(project);
+        });
+    }
+
+    @PreAuthorize("hasRole('ADMIN')")
+    public Mono<Project> unpublish(Long id) {
+        return getById(id).flatMap(project -> {
+            project.setPublished(false);
+            project.setUpdatedAt(Instant.now());
+            return projectRepository.save(project);
+        });
     }
 }
