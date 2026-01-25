@@ -60,3 +60,16 @@ CREATE TABLE IF NOT EXISTS profile (
 --              'Indonesia',
 --              'alvayonara@gmail.com'
 --          );
+
+CREATE TABLE IF NOT EXISTS experience (
+                            id BIGINT AUTO_INCREMENT PRIMARY KEY,
+                            company VARCHAR(100) NOT NULL,
+                            title VARCHAR(100) NOT NULL,
+                            location VARCHAR(100),
+                            description TEXT,
+                            start_date DATE NOT NULL,
+                            end_date DATE,
+                            published BOOLEAN NOT NULL DEFAULT TRUE,
+                            created_at TIMESTAMP NOT NULL,
+                            updated_at TIMESTAMP NOT NULL
+);
