@@ -4,10 +4,7 @@ import com.alvayonara.portfolioservice.admin.dto.PublicProjectDto;
 import com.alvayonara.portfolioservice.admin.entity.Project;
 import com.alvayonara.portfolioservice.admin.service.PublicProjectService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
@@ -18,8 +15,12 @@ public class PublicProjectController {
     private PublicProjectService projectService;
 
     @GetMapping
-    public Flux<PublicProjectDto> list() {
-        return projectService.listPublished();
+    public Flux<PublicProjectDto> list(
+            @RequestParam(defaultValue = "0") int page,
+            @RequestParam(defaultValue = "10") int size
+    ) {
+        size = Math.min(size, 20);
+        return projectService.listPublished(page, size);
     }
 
     @GetMapping("/{id}")
