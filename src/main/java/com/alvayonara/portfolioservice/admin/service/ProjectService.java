@@ -21,6 +21,7 @@ public class ProjectService {
     public Mono<Project> create(Project project) {
         project.setCreatedAt(Instant.now());
         project.setUpdatedAt(Instant.now());
+        project.setPublished(false);
         return projectRepository.save(project)
                 .doOnSuccess(p -> log.debug("Project created with id {}", p.getId()));
     }
