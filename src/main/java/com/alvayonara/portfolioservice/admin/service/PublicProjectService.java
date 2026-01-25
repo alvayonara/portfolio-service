@@ -1,5 +1,6 @@
 package com.alvayonara.portfolioservice.admin.service;
 
+import com.alvayonara.portfolioservice.admin.dto.PublicProjectDto;
 import com.alvayonara.portfolioservice.admin.entity.Project;
 import com.alvayonara.portfolioservice.admin.repository.ProjectRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,13 +15,24 @@ public class PublicProjectService {
     @Autowired
     private ProjectRepository projectRepository;
 
-    public Flux<Project> listPublished() {
-        return projectRepository.findByPublishedTrue();
+    public Flux<PublicProjectDto> listPublished() {
+        return projectRepository.findByPublishedTrue().map(this::toDto);
     }
 
-    public Mono<Project> getPublishedById(Long id) {
+    public Mono<PublicProjectDto> getPublishedById(Long id) {
         return projectRepository.findById(id)
                 .filter(Project::getPublished)
-                .switchIfEmpty(Mono.error(new ResponseStatusException(HttpStatus.NOT_FOUND, "Project not found")));
+                .switchIfEmpty(Mono.error(new ResponseStatusException(HttpStatus.NOT_FOUND, "Project not found")))
+                .map(this::toDto);
+    }
+
+    private PublicProjectDto toDto(Project project) {
+        return new PublicProjectDto(
+                project.getId(),
+                project.getTitle(),
+                project.getDescription(),
+                project.getTechStack(),
+                project.getRepoUrl()
+        );
     }
 }

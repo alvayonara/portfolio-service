@@ -1,5 +1,6 @@
 package com.alvayonara.portfolioservice.admin.controller;
 
+import com.alvayonara.portfolioservice.admin.dto.PublicProjectDto;
 import com.alvayonara.portfolioservice.admin.entity.Project;
 import com.alvayonara.portfolioservice.admin.service.PublicProjectService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,12 +18,12 @@ public class PublicProjectController {
     private PublicProjectService projectService;
 
     @GetMapping
-    public Flux<Project> list() {
+    public Flux<PublicProjectDto> list() {
         return projectService.listPublished();
     }
 
     @GetMapping("/{id}")
-    public Mono<Project> get(@PathVariable Long id) {
+    public Mono<PublicProjectDto> get(@PathVariable Long id) {
         return projectService.getPublishedById(id);
     }
 }
