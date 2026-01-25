@@ -39,4 +39,14 @@ public class ProjectController {
     public Mono<Void> delete(@PathVariable Long id) {
         return projectService.delete(id);
     }
+
+    @PatchMapping("/{id}/publish")
+    public Mono<Project> publish(@PathVariable Long id) {
+        return projectService.publish(id);
+    }
+
+    @PatchMapping("/{id}/unpublish")
+    public Mono<Project> unpublish(@PathVariable Long id) {
+        return projectService.unpublish(id);
+    }
 }
