@@ -3,12 +3,14 @@ package com.alvayonara.portfolioservice.admin.controller;
 import com.alvayonara.portfolioservice.admin.entity.Project;
 import com.alvayonara.portfolioservice.admin.service.ProjectService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
 @RestController
 @RequestMapping("/admin/projects")
+@PreAuthorize("hasRole('ADMIN')")
 public class ProjectController {
     @Autowired
     private ProjectService projectService;
