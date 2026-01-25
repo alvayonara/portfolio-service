@@ -11,7 +11,7 @@ import reactor.core.publisher.Mono;
 @RestController
 @RequestMapping("/admin/projects")
 @PreAuthorize("hasRole('ADMIN')")
-public class ProjectController {
+public class ProjectAdminController {
     @Autowired
     private ProjectService projectService;
 
