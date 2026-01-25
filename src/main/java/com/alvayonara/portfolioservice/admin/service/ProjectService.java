@@ -4,6 +4,7 @@ import com.alvayonara.portfolioservice.admin.entity.Project;
 import com.alvayonara.portfolioservice.admin.repository.ProjectRepository;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Service;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
@@ -16,6 +17,7 @@ public class ProjectService {
     @Autowired
     private ProjectRepository projectRepository;
 
+    @PreAuthorize("hasRole('ADMIN')")
     public Mono<Project> create(Project project) {
         project.setCreatedAt(Instant.now());
         project.setUpdatedAt(Instant.now());
@@ -23,15 +25,18 @@ public class ProjectService {
                 .doOnSuccess(p -> log.debug("Project created with id {}", p.getId()));
     }
 
+    @PreAuthorize("hasRole('ADMIN')")
     public Mono<Project> getById(Long id) {
         return projectRepository.findById(id)
                 .switchIfEmpty(Mono.error(new RuntimeException("Project not found")));
     }
 
+    @PreAuthorize("hasRole('ADMIN')")
     public Flux<Project> getAll() {
         return projectRepository.findAll();
     }
 
+    @PreAuthorize("hasRole('ADMIN')")
     public Mono<Project> update(Long id, Project project) {
         return getById(id)
                 .flatMap(existProject -> {
@@ -45,6 +50,7 @@ public class ProjectService {
                 });
     }
 
+    @PreAuthorize("hasRole('ADMIN')")
     public Mono<Void> delete(Long id) {
         return projectRepository.deleteById(id);
     }

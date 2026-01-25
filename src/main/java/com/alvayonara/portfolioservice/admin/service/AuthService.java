@@ -31,7 +31,10 @@ public class AuthService {
                         return Mono.error(new RuntimeException("User disabled"));
                     }
                     if (!passwordEncoder.matches(password, user.password())) {
-                        return Mono.error(new ResponseStatusException(HttpStatus.UNAUTHORIZED, "Invalid username or password"));
+                        return Mono.error(new ResponseStatusException(
+                                HttpStatus.UNAUTHORIZED,
+                                "Invalid username or password"
+                        ));
                     }
                     return userRoleRepository.findByUserId(user.id())
                             .map(UserRole::role)
