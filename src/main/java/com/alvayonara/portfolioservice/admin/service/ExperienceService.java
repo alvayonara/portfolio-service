@@ -1,6 +1,9 @@
 package com.alvayonara.portfolioservice.admin.service;
 
+import com.alvayonara.portfolioservice.admin.dto.PublicExperienceDto;
+import com.alvayonara.portfolioservice.admin.dto.PublicProjectDto;
 import com.alvayonara.portfolioservice.admin.entity.Experience;
+import com.alvayonara.portfolioservice.admin.entity.Project;
 import com.alvayonara.portfolioservice.admin.repository.ExperienceRepository;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -29,8 +32,8 @@ public class ExperienceService {
     }
 
     @PreAuthorize("hasRole('ADMIN')")
-    public Flux<Experience> listAll() {
-        return experienceRepository.findAll();
+    public Flux<PublicExperienceDto> listAll() {
+        return experienceRepository.findAll().map(this::toDto);
     }
 
     @PreAuthorize("hasRole('ADMIN')")
@@ -53,5 +56,17 @@ public class ExperienceService {
     @PreAuthorize("hasRole('ADMIN')")
     public Mono<Void> delete(Long id) {
         return experienceRepository.deleteById(id);
+    }
+
+    private PublicExperienceDto toDto(Experience experience) {
+        return new PublicExperienceDto(
+                experience.getId(),
+                experience.getCompany(),
+                experience.getTitle(),
+                experience.getLocation(),
+                experience.getDescription(),
+                experience.getStartDate(),
+                experience.getEndDate()
+        );
     }
 }
