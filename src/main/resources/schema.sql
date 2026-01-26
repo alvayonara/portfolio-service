@@ -100,3 +100,16 @@ CREATE TABLE IF NOT EXISTS skill (
     REFERENCES skill_group(id)
     ON DELETE CASCADE
     );
+
+CREATE TABLE IF NOT EXISTS education (
+                           id BIGINT PRIMARY KEY AUTO_INCREMENT,
+                           institution_name VARCHAR(150) NOT NULL,
+                           degree VARCHAR(100) NOT NULL,
+                           field_of_study VARCHAR(120),
+                           start_year INT NOT NULL,
+                           end_year INT,
+                           description TEXT,
+                           order_index INT NOT NULL,
+                           created_at TIMESTAMP NOT NULL,
+                           updated_at TIMESTAMP NOT NULL
+);

@@ -10,7 +10,7 @@ import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
 @RestController
-@RequestMapping("/skills")
+@RequestMapping("/admin/skills")
 @PreAuthorize("hasRole('ADMIN')")
 public class SkillAdminController {
     @Autowired
