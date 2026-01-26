@@ -6,4 +6,5 @@ import reactor.core.publisher.Flux;
 
 public interface SkillRepository extends ReactiveCrudRepository<Skill, Long> {
     Flux<Skill> findByPublishedTrueOrderByDisplayOrderAsc(Long groupId);
+    Flux<Skill> findBySkillGroupId(Long skillGroupId);
 }
