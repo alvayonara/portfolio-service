@@ -73,3 +73,30 @@ CREATE TABLE IF NOT EXISTS experience (
                             created_at TIMESTAMP NOT NULL,
                             updated_at TIMESTAMP NOT NULL
 );
+
+CREATE TABLE IF NOT EXISTS skill_group (
+                                           id BIGINT PRIMARY KEY AUTO_INCREMENT,
+                                           name VARCHAR(100) NOT NULL,
+    display_order INT NOT NULL,
+    published BOOLEAN NOT NULL DEFAULT FALSE,
+    created_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    updated_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP
+    ON UPDATE CURRENT_TIMESTAMP
+    );
+
+CREATE TABLE IF NOT EXISTS skill (
+                                     id BIGINT PRIMARY KEY AUTO_INCREMENT,
+                                     skill_group_id BIGINT NOT NULL,
+                                     name VARCHAR(100) NOT NULL,
+    level VARCHAR(50),
+    display_order INT NOT NULL,
+    published BOOLEAN NOT NULL DEFAULT FALSE,
+    created_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    updated_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP
+    ON UPDATE CURRENT_TIMESTAMP,
+
+    CONSTRAINT fk_skill_group
+    FOREIGN KEY (skill_group_id)
+    REFERENCES skill_group(id)
+    ON DELETE CASCADE
+    );
