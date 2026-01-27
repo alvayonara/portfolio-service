@@ -9,6 +9,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.http.server.ServerHttpRequest;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.server.ServerWebExchange;
 import reactor.core.publisher.Mono;
 
 import java.util.Optional;
@@ -23,13 +24,17 @@ public class ContactController {
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
-    public Mono<ResponseEntity<Void>> submit(@Valid @RequestBody ContactRequest contactRequest, ServerHttpRequest httpRequest) {
+    public Mono<ResponseEntity<Void>> submit(@Valid @RequestBody ContactRequest contactRequest, ServerWebExchange exchange) {
         if (contactRequest.company() != null && !contactRequest.company().isBlank()) {
             return Mono.empty();
         }
-        String ip = Optional.of(httpRequest.getHeaders().getFirst("X-Forwarded-For"))
+        String ip = Optional.of(exchange.getRequest().getHeaders().getFirst("X-Forwarded-For"))
                 .map(x -> x.split(",")[0])
-                .orElseGet(() -> httpRequest.getRemoteAddress().getAddress().getHostAddress());
+                .orElseGet(() ->
+                        exchange.getRequest().getRemoteAddress()
+                                .getAddress()
+                                .getHostAddress()
+                );
         return redisRateLimiter.checkLimit(ip)
                 .then(contactService.send(contactRequest))
                 .thenReturn(ResponseEntity.accepted().build());
