@@ -113,3 +113,12 @@ CREATE TABLE IF NOT EXISTS education (
                            created_at TIMESTAMP NOT NULL,
                            updated_at TIMESTAMP NOT NULL
 );
+
+CREATE TABLE IF NOT EXISTS resume (
+                        id BIGINT AUTO_INCREMENT PRIMARY KEY,
+                        s3_key VARCHAR(255) NOT NULL,
+                        original_filename VARCHAR(255) NOT NULL,
+                        content_type VARCHAR(100),
+                        size BIGINT,
+                        uploaded_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
