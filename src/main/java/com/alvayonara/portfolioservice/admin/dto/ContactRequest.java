@@ -8,6 +8,7 @@ public record ContactRequest(
         @NotBlank @Size(max = 100) String name,
         @Email @NotBlank String email,
         @Size(max = 200) String subject,
-        @NotBlank String message
+        @NotBlank String message,
+        String company
 ) {
 }

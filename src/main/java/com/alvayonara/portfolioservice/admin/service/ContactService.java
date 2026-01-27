@@ -8,6 +8,7 @@ import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.stereotype.Service;
 import reactor.core.publisher.Mono;
+import reactor.core.scheduler.Schedulers;
 
 @Service
 @Slf4j
@@ -18,24 +19,31 @@ public class ContactService {
     @Value("${spring.mail.username}")
     private String recipient;
 
+    /**
+     * boundedElastic(): safe for blocking SMTP
+     * @param request
+     * @return
+     */
     public Mono<Void> send(ContactRequest request) {
         return Mono.fromRunnable(() -> {
-            SimpleMailMessage mail = new SimpleMailMessage();
-            mail.setTo(recipient);
-            mail.setSubject("[Portfolio] " + request.subject());
-            mail.setReplyTo(request.email());
-            mail.setText("""
-                    Name: %s
-                    Email: %s
+                    SimpleMailMessage mail = new SimpleMailMessage();
+                    mail.setTo(recipient);
+                    mail.setSubject("[Portfolio] " + request.subject());
+                    mail.setReplyTo(request.email());
+                    mail.setText("""
+                            Name: %s
+                            Email: %s
 
-                    Message:
-                    %s
-                    """.formatted(
-                    request.name(),
-                    request.email(),
-                    request.message()
-            ));
-            javaMailSender.send(mail);
-        });
+                            Message:
+                            %s
+                            """.formatted(
+                            request.name(),
+                            request.email(),
+                            request.message()
+                    ));
+                    javaMailSender.send(mail);
+                })
+                .subscribeOn(Schedulers.boundedElastic())
+                .then();
     }
 }
