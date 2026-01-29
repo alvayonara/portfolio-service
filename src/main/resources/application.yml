@@ -2,23 +2,23 @@ spring:
   application:
     name: portfolio-service
   r2dbc:
-    url: r2dbc:mysql://localhost:3306/portfolio
-    username: root
-    password:
+    url: ${DB_URL}
+    username: ${DB_USERNAME}
+    password: ${DB_PASSWORD}
   sql:
     init:
       mode: always
   data:
     redis:
-      host: 127.0.0.1
-      port: 6379
-      username: xxx
-      password: xxx
+      host: ${REDIS_HOST}
+      port: ${REDIS_PORT}
+      username: ${REDIS_USERNAME}
+      password: ${REDIS_PASSWORD}
   mail:
-    host: smtp.gmail.com
-    port: 587
-    username: xxx
-    password: xxx
+    host: ${MAIL_HOST}
+    port: ${MAIL_PORT}
+    username: ${MAIL_USERNAME}
+    password: ${MAIL_PASSWORD}
     properties:
       mail:
         smtp:
@@ -32,16 +32,15 @@ server:
 logging:
   level:
     root: INFO
-    com.alvayonara.portfolioservice: DEBUG
 
 jwt:
-  keyId: temp-portfolio-key
-  secret: temp-secret-asdasd-asdasd-asdasd
+  keyId: ${JWT_KEY_ID}
+  secret: ${JWT_SECRET}
 
 aws:
-  region: ap-southeast-1
+  region: ${AWS_REGION}
   s3:
-    bucket: portfolio
-    access-key: xxx
-    secret-key: xxx
-    resume-prefix: resumes/
+    bucket: ${S3_BUCKET}
+    access-key: ${S3_ACCESS_KEY}
+    secret-key: ${S3_SECRET_KEY}
+    resume-prefix: ${S3_RESUME_PREFIX}
