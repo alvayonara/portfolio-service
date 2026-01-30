@@ -2,7 +2,7 @@ package com.alvayonara.portfolioservice.admin.controller;
 
 import com.alvayonara.portfolioservice.admin.dto.ContactRequest;
 import com.alvayonara.portfolioservice.admin.service.ContactService;
-//import com.alvayonara.portfolioservice.common.redis.RedisRateLimiter;
+import com.alvayonara.portfolioservice.common.redis.RedisRateLimiter;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -19,8 +19,8 @@ import java.util.Optional;
 public class ContactController {
     @Autowired
     private ContactService contactService;
-//    @Autowired
-//    private RedisRateLimiter redisRateLimiter;
+    @Autowired
+    private RedisRateLimiter redisRateLimiter;
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
@@ -28,17 +28,15 @@ public class ContactController {
         if (contactRequest.company() != null && !contactRequest.company().isBlank()) {
             return Mono.empty();
         }
-//        String ip = Optional.of(exchange.getRequest().getHeaders().getFirst("X-Forwarded-For"))
-//                .map(x -> x.split(",")[0])
-//                .orElseGet(() ->
-//                        exchange.getRequest().getRemoteAddress()
-//                                .getAddress()
-//                                .getHostAddress()
-//                );
-//        return redisRateLimiter.checkLimit(ip)
-//                .then(contactService.send(contactRequest))
-//                .thenReturn(ResponseEntity.accepted().build());
-
-        return contactService.send(contactRequest).thenReturn(ResponseEntity.accepted().build());
+        String ip = Optional.of(exchange.getRequest().getHeaders().getFirst("X-Forwarded-For"))
+                .map(x -> x.split(",")[0])
+                .orElseGet(() ->
+                        exchange.getRequest().getRemoteAddress()
+                                .getAddress()
+                                .getHostAddress()
+                );
+        return redisRateLimiter.checkLimit(ip)
+                .then(contactService.send(contactRequest))
+                .thenReturn(ResponseEntity.accepted().build());
     }
 }
