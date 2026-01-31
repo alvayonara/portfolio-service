@@ -5,5 +5,5 @@ import org.springframework.data.repository.reactive.ReactiveCrudRepository;
 import reactor.core.publisher.Flux;
 
 public interface ExperienceRepository extends ReactiveCrudRepository<Experience, Long> {
-    Flux<Experience> findByPublishedTrueOrderByStartDateDesc();
+    Flux<Experience> findAllByOrderByStartDateDesc();
 }

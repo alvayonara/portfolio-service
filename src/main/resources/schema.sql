@@ -69,7 +69,6 @@ CREATE TABLE IF NOT EXISTS experience (
                             description TEXT,
                             start_date DATE NOT NULL,
                             end_date DATE,
-                            published BOOLEAN NOT NULL DEFAULT TRUE,
                             created_at TIMESTAMP NOT NULL,
                             updated_at TIMESTAMP NOT NULL
 );

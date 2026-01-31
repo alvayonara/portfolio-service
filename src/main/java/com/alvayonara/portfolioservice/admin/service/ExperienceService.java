@@ -1,9 +1,7 @@
 package com.alvayonara.portfolioservice.admin.service;
 
 import com.alvayonara.portfolioservice.admin.dto.PublicExperienceDto;
-import com.alvayonara.portfolioservice.admin.dto.PublicProjectDto;
 import com.alvayonara.portfolioservice.admin.entity.Experience;
-import com.alvayonara.portfolioservice.admin.entity.Project;
 import com.alvayonara.portfolioservice.admin.repository.ExperienceRepository;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,13 +25,8 @@ public class ExperienceService {
         return experienceRepository.save(experience);
     }
 
-    public Flux<Experience> listPublic() {
-        return experienceRepository.findByPublishedTrueOrderByStartDateDesc();
-    }
-
-    @PreAuthorize("hasRole('ADMIN')")
     public Flux<PublicExperienceDto> listAll() {
-        return experienceRepository.findAll().map(this::toDto);
+        return experienceRepository.findAllByOrderByStartDateDesc().map(this::toDto);
     }
 
     @PreAuthorize("hasRole('ADMIN')")
@@ -47,7 +40,6 @@ public class ExperienceService {
                     exp.setDescription(experience.getDescription());
                     exp.setStartDate(experience.getStartDate());
                     exp.setEndDate(experience.getEndDate());
-                    exp.setPublished(experience.getPublished());
                     exp.setUpdatedAt(Instant.now());
                     return experienceRepository.save(exp);
                 });

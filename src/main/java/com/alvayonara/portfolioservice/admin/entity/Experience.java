@@ -18,7 +18,6 @@ public class Experience {
     private String description;
     private LocalDate startDate;
     private LocalDate endDate;
-    private Boolean published;
     private Instant createdAt;
     private Instant updatedAt;
 }

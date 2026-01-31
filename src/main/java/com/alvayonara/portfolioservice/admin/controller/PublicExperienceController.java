@@ -1,6 +1,6 @@
 package com.alvayonara.portfolioservice.admin.controller;
 
-import com.alvayonara.portfolioservice.admin.entity.Experience;
+import com.alvayonara.portfolioservice.admin.dto.PublicExperienceDto;
 import com.alvayonara.portfolioservice.admin.service.ExperienceService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -15,7 +15,7 @@ public class PublicExperienceController {
     private ExperienceService experienceService;
 
     @GetMapping
-    public Flux<Experience> list() {
-        return experienceService.listPublic();
+    public Flux<PublicExperienceDto> list() {
+        return experienceService.listAll();
     }
 }
