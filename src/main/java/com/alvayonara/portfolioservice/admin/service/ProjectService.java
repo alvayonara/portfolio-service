@@ -45,6 +45,7 @@ public class ProjectService {
                     existProject.setDescription(project.getDescription());
                     existProject.setTechStack(project.getTechStack());
                     existProject.setRepoUrl(project.getRepoUrl());
+                    existProject.setCoverImageUrl(project.getCoverImageUrl());
                     existProject.setUpdatedAt(Instant.now());
                     log.info("Update project id {}", id);
                     return projectRepository.save(existProject);
