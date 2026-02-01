@@ -4,6 +4,7 @@ CREATE TABLE IF NOT EXISTS projects (
     description TEXT,
     tech_stack VARCHAR(255),
     repo_url VARCHAR(255),
+    cover_image_url VARCHAR(512),
     published BOOLEAN DEFAULT FALSE,
     created_at TIMESTAMP,
     updated_at TIMESTAMP

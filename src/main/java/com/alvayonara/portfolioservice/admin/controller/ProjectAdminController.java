@@ -1,6 +1,9 @@
 package com.alvayonara.portfolioservice.admin.controller;
 
+import com.alvayonara.portfolioservice.admin.dto.CreateUploadRequest;
+import com.alvayonara.portfolioservice.admin.dto.PresignedAssetUploadResponse;
 import com.alvayonara.portfolioservice.admin.entity.Project;
+import com.alvayonara.portfolioservice.admin.service.PresignedUploadService;
 import com.alvayonara.portfolioservice.admin.service.ProjectService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -14,6 +17,8 @@ import reactor.core.publisher.Mono;
 public class ProjectAdminController {
     @Autowired
     private ProjectService projectService;
+    @Autowired
+    private PresignedUploadService presignedUploadService;
 
     @PostMapping
     public Mono<Project> create(@RequestBody Project project) {
@@ -48,5 +53,10 @@ public class ProjectAdminController {
     @PatchMapping("/{id}/unpublish")
     public Mono<Project> unpublish(@PathVariable Long id) {
         return projectService.unpublish(id);
+    }
+
+    @PostMapping("/upload-image")
+    public Mono<PresignedAssetUploadResponse> uploadImage(@RequestBody CreateUploadRequest request) {
+        return presignedUploadService.createUploadUrl("projects/", request);
     }
 }
