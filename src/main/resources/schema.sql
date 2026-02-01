@@ -1,10 +1,10 @@
 CREATE TABLE IF NOT EXISTS projects (
                                         id BIGINT PRIMARY KEY AUTO_INCREMENT,
-                                        title VARCHAR(255) NOT NULL,
-    description TEXT,
-    tech_stack VARCHAR(255),
-    repo_url VARCHAR(255),
-    cover_image_url VARCHAR(512),
+                                        title VARCHAR(255) DEFAULT NULL,
+    description TEXT DEFAULT NULL,
+    tech_stack VARCHAR(255) DEFAULT NULL,
+    repo_url VARCHAR(255) DEFAULT NULL,
+    s3_key VARCHAR(255) DEFAULT NULL,
     published BOOLEAN DEFAULT FALSE,
     created_at TIMESTAMP,
     updated_at TIMESTAMP

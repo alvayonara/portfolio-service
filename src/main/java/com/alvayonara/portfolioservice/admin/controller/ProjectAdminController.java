@@ -1,9 +1,8 @@
 package com.alvayonara.portfolioservice.admin.controller;
 
 import com.alvayonara.portfolioservice.admin.dto.CreateUploadRequest;
-import com.alvayonara.portfolioservice.admin.dto.PresignedAssetUploadResponse;
+import com.alvayonara.portfolioservice.admin.dto.PresignedUploadResponse;
 import com.alvayonara.portfolioservice.admin.entity.Project;
-import com.alvayonara.portfolioservice.admin.service.PresignedUploadService;
 import com.alvayonara.portfolioservice.admin.service.ProjectService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -17,12 +16,30 @@ import reactor.core.publisher.Mono;
 public class ProjectAdminController {
     @Autowired
     private ProjectService projectService;
-    @Autowired
-    private PresignedUploadService presignedUploadService;
 
-    @PostMapping
-    public Mono<Project> create(@RequestBody Project project) {
-        return projectService.create(project);
+    @PostMapping("/draft")
+    public Mono<Project> createDraft() {
+        return projectService.createDraft();
+    }
+
+    @PostMapping("/{id}/image/upload-url")
+    public Mono<PresignedUploadResponse> createImageUploadUrl(@PathVariable Long id, @RequestBody CreateUploadRequest request) {
+        return projectService.createProjectImageUploadUrl(id, request);
+    }
+
+    @PutMapping("/{id}")
+    public Mono<Project> update(@PathVariable Long id, @RequestBody Project project) {
+        return projectService.update(id, project);
+    }
+
+    @PostMapping("/{id}/publish")
+    public Mono<Project> publish(@PathVariable Long id) {
+        return projectService.publish(id);
+    }
+
+    @PostMapping("/{id}/unpublish")
+    public Mono<Project> unpublish(@PathVariable Long id) {
+        return projectService.unpublish(id);
     }
 
     @GetMapping("/{id}")
@@ -35,28 +52,8 @@ public class ProjectAdminController {
         return projectService.getAll();
     }
 
-    @PutMapping("/{id}")
-    public Mono<Project> update(@PathVariable Long id, @RequestBody Project project) {
-        return projectService.update(id, project);
-    }
-
     @DeleteMapping("/{id}")
     public Mono<Void> delete(@PathVariable Long id) {
         return projectService.delete(id);
-    }
-
-    @PatchMapping("/{id}/publish")
-    public Mono<Project> publish(@PathVariable Long id) {
-        return projectService.publish(id);
-    }
-
-    @PatchMapping("/{id}/unpublish")
-    public Mono<Project> unpublish(@PathVariable Long id) {
-        return projectService.unpublish(id);
-    }
-
-    @PostMapping("/upload-image")
-    public Mono<PresignedAssetUploadResponse> uploadImage(@RequestBody CreateUploadRequest request) {
-        return presignedUploadService.createUploadUrl("projects/", request);
     }
 }
