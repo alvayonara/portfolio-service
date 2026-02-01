@@ -15,7 +15,7 @@ public class Project {
     private String description;
     private String techStack;
     private String repoUrl;
-    private String coverImageUrl;
+    private String s3Key;
     private Boolean published = false;
     private Instant createdAt;
     private Instant updatedAt;
