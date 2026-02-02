@@ -23,7 +23,7 @@ public class EducationService {
     }
 
     public Flux<Education> list() {
-        return educationRepository.findAllByOrderByOrderIndexAsc();
+        return educationRepository.findAllByOrderByStartYearDesc();
     }
 
     @PreAuthorize("hasRole('ADMIN')")
@@ -37,7 +37,6 @@ public class EducationService {
                     edu.setStartYear(education.getStartYear());
                     edu.setEndYear(education.getEndYear());
                     edu.setDescription(education.getDescription());
-                    edu.setOrderIndex(education.getOrderIndex());
                     edu.setUpdatedAt(Instant.now());
                     return educationRepository.save(edu);
                 });

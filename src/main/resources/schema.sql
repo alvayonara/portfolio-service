@@ -109,7 +109,6 @@ CREATE TABLE IF NOT EXISTS education (
                            start_year INT NOT NULL,
                            end_year INT,
                            description TEXT,
-                           order_index INT NOT NULL,
                            created_at TIMESTAMP NOT NULL,
                            updated_at TIMESTAMP NOT NULL
 );

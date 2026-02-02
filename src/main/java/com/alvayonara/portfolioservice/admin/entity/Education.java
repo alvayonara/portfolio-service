@@ -17,7 +17,6 @@ public class Education {
     private Integer startYear;
     private Integer endYear;
     private String description;
-    private Integer orderIndex;
     private Instant createdAt;
     private Instant updatedAt;
 }
