@@ -29,7 +29,7 @@ public class SkillService {
                 .flatMap(sk -> {
                     sk.setName(skill.getName());
                     sk.setLevel(skill.getLevel());
-                    sk.setUpdatedAt(skill.getUpdatedAt());
+                    sk.setUpdatedAt(Instant.now());
                     return skillRepository.save(sk);
                 });
     }

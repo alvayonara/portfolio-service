@@ -2,6 +2,7 @@ package com.alvayonara.portfolioservice.admin.controller;
 
 import com.alvayonara.portfolioservice.admin.entity.Skill;
 import com.alvayonara.portfolioservice.admin.service.SkillService;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
