@@ -77,8 +77,6 @@ CREATE TABLE IF NOT EXISTS experience (
 CREATE TABLE IF NOT EXISTS skill_group (
                                            id BIGINT PRIMARY KEY AUTO_INCREMENT,
                                            name VARCHAR(100) NOT NULL,
-    display_order INT NOT NULL,
-    published BOOLEAN NOT NULL DEFAULT FALSE,
     created_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
     updated_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP
     ON UPDATE CURRENT_TIMESTAMP
@@ -89,8 +87,6 @@ CREATE TABLE IF NOT EXISTS skill (
                                      skill_group_id BIGINT NOT NULL,
                                      name VARCHAR(100) NOT NULL,
     level VARCHAR(50),
-    display_order INT NOT NULL,
-    published BOOLEAN NOT NULL DEFAULT FALSE,
     created_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
     updated_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP
     ON UPDATE CURRENT_TIMESTAMP,

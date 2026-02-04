@@ -16,9 +16,9 @@ public class PublicSkillService {
     private SkillRepository skillRepository;
 
     public Flux<PublicSkillGroupDto> listPublished() {
-        return skillGroupRepository.findByPublishedTrueOrderByDisplayOrderAsc()
-                .flatMap(skillGroup -> skillRepository.findByPublishedTrueOrderByDisplayOrderAsc(skillGroup.getId())
-                        .map(skill -> new PublicSkillDto(skill.getName(), skill.getLevel()))
+        return skillGroupRepository.findAll()
+                .flatMap(skillGroup -> skillRepository.findBySkillGroupId(skillGroup.getId())
+                        .map(skill -> new PublicSkillDto(skill.getName()))
                         .collectList()
                         .map(skills -> new PublicSkillGroupDto(skillGroup.getName(), skills)));
     }

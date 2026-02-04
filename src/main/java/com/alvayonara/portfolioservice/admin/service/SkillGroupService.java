@@ -9,7 +9,6 @@ import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
 import java.time.Instant;
-import java.util.Comparator;
 
 @Service
 public class SkillGroupService {
@@ -29,8 +28,6 @@ public class SkillGroupService {
                 .switchIfEmpty(Mono.error(new RuntimeException("Group not found")))
                 .flatMap(skillGr -> {
                     skillGr.setName(skillGroup.getName());
-                    skillGr.setDisplayOrder(skillGroup.getDisplayOrder());
-                    skillGr.setPublished(skillGroup.getPublished());
                     skillGr.setUpdatedAt(Instant.now());
                     return skillGroupRepository.save(skillGr);
                 });
@@ -43,6 +40,6 @@ public class SkillGroupService {
 
     @PreAuthorize("hasRole('ADMIN')")
     public Flux<SkillGroup> listAll() {
-        return skillGroupRepository.findAll().sort(Comparator.comparing(SkillGroup::getDisplayOrder));
+        return skillGroupRepository.findAll();
     }
 }

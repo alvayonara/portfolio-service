@@ -12,8 +12,6 @@ public class SkillGroup {
     @Id
     private Long id;
     private String name;
-    private Integer displayOrder;
-    private Boolean published;
     private Instant createdAt;
     private Instant updatedAt;
 }

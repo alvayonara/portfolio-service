@@ -1,7 +1,6 @@
 package com.alvayonara.portfolioservice.admin.controller;
 
 import com.alvayonara.portfolioservice.admin.entity.Skill;
-import com.alvayonara.portfolioservice.admin.entity.SkillGroup;
 import com.alvayonara.portfolioservice.admin.service.SkillService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;

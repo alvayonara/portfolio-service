@@ -14,8 +14,6 @@ public class Skill {
     private Long skillGroupId;
     private String name;
     private String level;
-    private Integer displayOrder;
-    private Boolean published;
     private Instant createdAt;
     private Instant updatedAt;
 }

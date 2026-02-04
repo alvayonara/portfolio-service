@@ -9,7 +9,6 @@ import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
 import java.time.Instant;
-import java.util.Comparator;
 
 @Service
 public class SkillService {
@@ -30,8 +29,6 @@ public class SkillService {
                 .flatMap(sk -> {
                     sk.setName(skill.getName());
                     sk.setLevel(skill.getLevel());
-                    sk.setDisplayOrder(skill.getDisplayOrder());
-                    sk.setPublished(skill.getPublished());
                     sk.setUpdatedAt(skill.getUpdatedAt());
                     return skillRepository.save(sk);
                 });
@@ -44,6 +41,6 @@ public class SkillService {
 
     @PreAuthorize("hasRole('ADMIN')")
     public Flux<Skill> listByGroup(Long groupId) {
-        return skillRepository.findBySkillGroupId(groupId).sort(Comparator.comparing(Skill::getDisplayOrder));
+        return skillRepository.findBySkillGroupId(groupId);
     }
 }
