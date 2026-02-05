@@ -1,4 +1,4 @@
-package com.alvayonara.portfolioservice.common.util;
+package com.alvayonara.portfolioservice.common.security;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.oauth2.jose.jws.MacAlgorithm;

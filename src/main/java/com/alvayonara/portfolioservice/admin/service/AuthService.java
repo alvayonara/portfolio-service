@@ -3,7 +3,7 @@ package com.alvayonara.portfolioservice.admin.service;
 import com.alvayonara.portfolioservice.admin.entity.UserRole;
 import com.alvayonara.portfolioservice.admin.repository.UserRepository;
 import com.alvayonara.portfolioservice.admin.repository.UserRoleRepository;
-import com.alvayonara.portfolioservice.common.util.JwtUtil;
+import com.alvayonara.portfolioservice.common.security.JwtUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.crypto.password.PasswordEncoder;

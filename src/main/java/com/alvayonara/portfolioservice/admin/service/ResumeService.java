@@ -2,6 +2,7 @@ package com.alvayonara.portfolioservice.admin.service;
 
 import com.alvayonara.portfolioservice.admin.dto.CreateUploadRequest;
 import com.alvayonara.portfolioservice.admin.dto.PresignedUploadResponse;
+import com.alvayonara.portfolioservice.admin.dto.PublicResumeDto;
 import com.alvayonara.portfolioservice.admin.entity.Resume;
 import com.alvayonara.portfolioservice.admin.repository.ResumeRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -36,45 +37,40 @@ public class ResumeService {
     @PreAuthorize("hasRole('ADMIN')")
     public Mono<PresignedUploadResponse> createUploadUrl(CreateUploadRequest request) {
         String s3Key = resumePrefix + UUID.randomUUID() + "-" + request.filename();
-        Resume resume = Resume.builder()
-                .s3Key(s3Key)
-                .originalFilename(request.filename())
-                .contentType(request.contentType())
-                .size(request.size())
-                .uploadedAt(Instant.now())
-                .build();
-        return resumeRepository.save(resume)
-                .map(saved -> {
+        return Mono.fromCallable(() -> {
                     PutObjectRequest putRequest = PutObjectRequest.builder()
                             .bucket(bucket)
-                            .key(saved.getS3Key())
-                            .contentType(saved.getContentType())
+                            .key(s3Key)
+                            .contentType(request.contentType())
                             .build();
-                    PutObjectPresignRequest presignRequest = PutObjectPresignRequest.builder()
-                            .putObjectRequest(putRequest)
-                            .signatureDuration(Duration.ofMinutes(10))
-                            .build();
-                    String url = s3Presigner.presignPutObject(presignRequest).url().toString();
+                    PutObjectPresignRequest presignRequest =
+                            PutObjectPresignRequest.builder()
+                                    .putObjectRequest(putRequest)
+                                    .signatureDuration(Duration.ofMinutes(10))
+                                    .build();
+                    return s3Presigner.presignPutObject(presignRequest);
+                })
+                .flatMap(presigned -> {
+                    String uploadUrl = presigned.url().toString();
                     String publicUrl = "https://" + bucket + ".s3.amazonaws.com/" + s3Key;
-                    return new PresignedUploadResponse(url, publicUrl);
+                    Resume resume = Resume.builder()
+                            .s3Key(s3Key)
+                            .originalFilename(request.filename())
+                            .contentType(request.contentType())
+                            .size(request.size())
+                            .uploadedAt(Instant.now())
+                            .build();
+                    return resumeRepository.deleteAll()
+                            .then(resumeRepository.save(resume))
+                            .thenReturn(new PresignedUploadResponse(uploadUrl, publicUrl));
                 });
     }
 
-    public Mono<String> generateDownloadUrl(Long resumeId) {
-        return resumeRepository.findById(resumeId)
-                .switchIfEmpty(Mono.error(new ResponseStatusException(HttpStatus.NOT_FOUND, "Resume not found")))
-                .map(resume -> {
-                    GetObjectRequest getRequest = GetObjectRequest.builder()
-                            .bucket(bucket)
-                            .key(resume.getS3Key())
-                            .responseContentDisposition("attachment; filename=\"" +
-                                    resume.getOriginalFilename() + "\"")
-                            .build();
-                    GetObjectPresignRequest presignRequest = GetObjectPresignRequest.builder()
-                            .getObjectRequest(getRequest)
-                            .signatureDuration(Duration.ofMinutes(10))
-                            .build();
-                    return s3Presigner.presignGetObject(presignRequest).url().toString();
-                });
+    public Mono<PublicResumeDto> getLatest() {
+        return resumeRepository.findFirstByOrderByUploadedAtDesc()
+                .map(resume -> new PublicResumeDto(
+                        "https://" + bucket + ".s3.amazonaws.com/" + resume.getS3Key(),
+                        resume.getUploadedAt()
+                ));
     }
 }

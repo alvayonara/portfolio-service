@@ -1,4 +1,4 @@
-package com.alvayonara.portfolioservice.admin.controller;
+package com.alvayonara.portfolioservice.auth.controller;
 
 import com.alvayonara.portfolioservice.admin.dto.AuthRequest;
 import com.alvayonara.portfolioservice.admin.dto.AuthResponse;
