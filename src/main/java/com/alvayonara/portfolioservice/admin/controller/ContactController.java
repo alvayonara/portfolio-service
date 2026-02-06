@@ -28,7 +28,7 @@ public class ContactController {
         if (contactRequest.company() != null && !contactRequest.company().isBlank()) {
             return Mono.empty();
         }
-        String ip = Optional.of(exchange.getRequest().getHeaders().getFirst("X-Forwarded-For"))
+        String ip = Optional.ofNullable(exchange.getRequest().getHeaders().getFirst("X-Forwarded-For"))
                 .map(x -> x.split(",")[0])
                 .orElseGet(() ->
                         exchange.getRequest().getRemoteAddress()
