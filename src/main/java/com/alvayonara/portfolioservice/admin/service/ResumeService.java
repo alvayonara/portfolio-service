@@ -67,7 +67,7 @@ public class ResumeService {
     public Mono<PublicResumeDto> getLatest() {
         return resumeRepository.findFirstByOrderByUploadedAtDesc()
                 .map(resume -> new PublicResumeDto(
-                        "https://" + bucket + ".s3.amazonaws.com/" + resume.getS3Key(),
+                        "https://" + bucket + ".s3." + region + ".amazonaws.com/" + resume.getS3Key(),
                         resume.getUploadedAt()
                 ));
     }
