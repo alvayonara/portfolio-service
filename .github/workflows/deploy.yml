@@ -1,16 +1,16 @@
-name: Deploy portfolio-service to cloud run
+name: Deploy portfolio-service to Cloud Run
 
 on:
   push:
-    branches: [ "main" ]
+    branches: ["main"]
+
+permissions:
+  contents: read
+  id-token: write
 
 jobs:
   deploy:
     runs-on: ubuntu-latest
-
-    permissions:
-      contents: read
-      id-token: write
 
     steps:
       - uses: actions/checkout@v4
@@ -23,28 +23,30 @@ jobs:
 
       - name: Set up gcloud
         uses: google-github-actions/setup-gcloud@v2
+        with:
+          project_id: ${{ secrets.GCP_PROJECT_ID }}
 
       - name: Configure Docker
-        run: gcloud auth configure-docker asia-southeast1-docker.pkg.dev
+        run: gcloud auth configure-docker asia-southeast1-docker.pkg.dev --quiet
 
       - name: Build Docker image
         run: |
-          docker build -t asia-southeast1-docker.pkg.dev/${{ secrets.GCP_PROJECT_ID }}/backend/portfolio-backend .
+          docker build -t asia-southeast1-docker.pkg.dev/${{ secrets.GCP_PROJECT_ID }}/backend/portfolio-backend:latest .
 
       - name: Push Docker image
         run: |
-          docker push asia-southeast1-docker.pkg.dev/${{ secrets.GCP_PROJECT_ID }}/backend/portfolio-backend
+          docker push asia-southeast1-docker.pkg.dev/${{ secrets.GCP_PROJECT_ID }}/backend/portfolio-backend:latest
 
       - name: Deploy to Cloud Run
         run: |
           gcloud run deploy portfolio-service \
-            --image asia-southeast1-docker.pkg.dev/${{ secrets.GCP_PROJECT_ID }}/backend/portfolio-backend \
+            --image asia-southeast1-docker.pkg.dev/${{ secrets.GCP_PROJECT_ID }}/backend/portfolio-backend:latest \
             --region asia-southeast1 \
             --platform managed \
             --allow-unauthenticated \
             --set-env-vars \
               DB_URL=${{ secrets.DB_URL }},\
-              DB_USERNAME=${{ secrets.DB_PASSWORD }},\
+              DB_USERNAME=${{ secrets.DB_USERNAME }},\
               DB_PASSWORD=${{ secrets.DB_PASSWORD }},\
               REDIS_HOST=${{ secrets.REDIS_HOST }},\
               REDIS_PORT=${{ secrets.REDIS_PORT }},\
