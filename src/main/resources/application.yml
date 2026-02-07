@@ -35,7 +35,6 @@ server:
 
 logging:
   level:
-    root: INFO
     io.r2dbc.mysql.QUERY: DEBUG
     io.r2dbc.mysql.PARAM: DEBUG
 
