@@ -29,30 +29,6 @@ jobs:
       - name: Configure Docker
         run: gcloud auth configure-docker asia-southeast1-docker.pkg.dev --quiet
 
-      - name: Export environment variables
-        run: |
-          echo "SPRING_R2DBC_URL=${{ secrets.SPRING_R2DBC_URL }}" >> $GITHUB_ENV
-          echo "SPRING_R2DBC_USERNAME=${{ secrets.SPRING_R2DBC_USERNAME }}" >> $GITHUB_ENV
-          echo "SPRING_R2DBC_PASSWORD=${{ secrets.SPRING_R2DBC_PASSWORD }}" >> $GITHUB_ENV
-          echo "REDIS_HOST=${{ secrets.REDIS_HOST }}" >> $GITHUB_ENV
-          echo "REDIS_PORT=${{ secrets.REDIS_PORT }}" >> $GITHUB_ENV
-          echo "REDIS_USERNAME=${{ secrets.REDIS_USERNAME }}" >> $GITHUB_ENV
-          echo "REDIS_PASSWORD=${{ secrets.REDIS_PASSWORD }}" >> $GITHUB_ENV
-          echo "MAIL_HOST=${{ secrets.MAIL_HOST }}" >> $GITHUB_ENV
-          echo "MAIL_PORT=${{ secrets.MAIL_PORT }}" >> $GITHUB_ENV
-          echo "MAIL_USERNAME=${{ secrets.MAIL_USERNAME }}" >> $GITHUB_ENV
-          echo "MAIL_PASSWORD=${{ secrets.MAIL_PASSWORD }}" >> $GITHUB_ENV
-          echo "JWT_KEY_ID=${{ secrets.JWT_KEY_ID }}" >> $GITHUB_ENV
-          echo "JWT_SECRET=${{ secrets.JWT_SECRET }}" >> $GITHUB_ENV
-          echo "AWS_REGION_NAME=${{ secrets.AWS_REGION_NAME }}" >> $GITHUB_ENV
-          echo "S3_BUCKET=${{ secrets.S3_BUCKET }}" >> $GITHUB_ENV
-          echo "S3_ACCESS_KEY=${{ secrets.S3_ACCESS_KEY }}" >> $GITHUB_ENV
-          echo "S3_SECRET_KEY=${{ secrets.S3_SECRET_KEY }}" >> $GITHUB_ENV
-          echo "S3_RESUME_PREFIX=${{ secrets.S3_RESUME_PREFIX }}" >> $GITHUB_ENV
-          echo "S3_PROJECT_PREFIX=${{ secrets.S3_PROJECT_PREFIX }}" >> $GITHUB_ENV
-          echo "S3_PROFILE_PREFIX=${{ secrets.S3_PROFILE_PREFIX }}" >> $GITHUB_ENV
-          echo "CORS_ALLOWED_ORIGINS=${{ secrets.CORS_ALLOWED_ORIGINS }}" >> $GITHUB_ENV
-
       - name: Build Docker image
         run: |
           docker build -t asia-southeast1-docker.pkg.dev/${{ secrets.GCP_PROJECT_ID }}/backend/portfolio-backend:latest .
@@ -69,4 +45,4 @@ jobs:
             --platform managed \
             --allow-unauthenticated \
             --service-account portfolio-backend@portfolio-service-485616.iam.gserviceaccount.com \
-            --env-vars-file env.yaml
+            --set-env-vars SPRING_R2DBC_URL=${{ secrets.SPRING_R2DBC_URL }},SPRING_R2DBC_USERNAME=${{ secrets.SPRING_R2DBC_USERNAME }},SPRING_R2DBC_PASSWORD=${{ secrets.SPRING_R2DBC_PASSWORD }},REDIS_HOST=${{ secrets.REDIS_HOST }},REDIS_PORT=${{ secrets.REDIS_PORT }},REDIS_USERNAME=${{ secrets.REDIS_USERNAME }},REDIS_PASSWORD=${{ secrets.REDIS_PASSWORD }},MAIL_HOST=${{ secrets.MAIL_HOST }},MAIL_PORT=${{ secrets.MAIL_PORT }},MAIL_USERNAME=${{ secrets.MAIL_USERNAME }},MAIL_PASSWORD=${{ secrets.MAIL_PASSWORD }},JWT_KEY_ID=${{ secrets.JWT_KEY_ID }},JWT_SECRET=${{ secrets.JWT_SECRET }},AWS_REGION_NAME=${{ secrets.AWS_REGION_NAME }},S3_BUCKET=${{ secrets.S3_BUCKET }},S3_ACCESS_KEY=${{ secrets.S3_ACCESS_KEY }},S3_SECRET_KEY=${{ secrets.S3_SECRET_KEY }},S3_RESUME_PREFIX=${{ secrets.S3_RESUME_PREFIX }},S3_PROJECT_PREFIX=${{ secrets.S3_PROJECT_PREFIX }},S3_PROFILE_PREFIX=${{ secrets.S3_PROFILE_PREFIX }},CORS_ALLOWED_ORIGINS=${{ secrets.CORS_ALLOWED_ORIGINS }}
