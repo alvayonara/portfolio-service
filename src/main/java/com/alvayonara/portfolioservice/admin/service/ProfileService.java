@@ -2,6 +2,7 @@ package com.alvayonara.portfolioservice.admin.service;
 
 import com.alvayonara.portfolioservice.admin.dto.CreateUploadRequest;
 import com.alvayonara.portfolioservice.admin.dto.PresignedUploadResponse;
+import com.alvayonara.portfolioservice.admin.dto.UploadResponseDetail;
 import com.alvayonara.portfolioservice.admin.entity.Profile;
 import com.alvayonara.portfolioservice.admin.repository.ProfileRepository;
 import lombok.extern.slf4j.Slf4j;
@@ -46,7 +47,7 @@ public class ProfileService {
                 .doOnSuccess(p -> log.info("Profile updated"));
     }
 
-    public Mono<PresignedUploadResponse> createProfileImageUploadUrl(CreateUploadRequest request) {
+    public Mono<UploadResponseDetail> createProfileImageUploadUrl(CreateUploadRequest request) {
         String s3Key = profilePrefix + "/" + UUID.randomUUID() + "-" + request.filename();
         PutObjectRequest putRequest = PutObjectRequest.builder()
                 .bucket(bucket)
@@ -59,6 +60,6 @@ public class ProfileService {
                 .build();
         String uploadUrl = s3Presigner.presignPutObject(presignRequest).url().toString();
         String publicUrl = "https://" + bucket + ".s3." + region + ".amazonaws.com/" + s3Key;
-        return Mono.just(new PresignedUploadResponse(uploadUrl, publicUrl));
+        return Mono.just(new UploadResponseDetail(uploadUrl, publicUrl, s3Key));
     }
 }
