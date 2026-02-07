@@ -35,7 +35,8 @@ server:
 
 logging:
   level:
-    root: INFO
+    io.r2dbc.mysql.QUERY: DEBUG
+    io.r2dbc.mysql.PARAM: DEBUG
 
 jwt:
   keyId: ${JWT_KEY_ID}
