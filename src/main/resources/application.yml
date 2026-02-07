@@ -50,6 +50,7 @@ aws:
     secret-key: ${S3_SECRET_KEY}
     resume-prefix: ${S3_RESUME_PREFIX}
     project-prefix: ${S3_PROJECT_PREFIX}
+    profile-prefix: ${S3_PROFILE_PREFIX}
 
 app:
   cors:

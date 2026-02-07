@@ -25,8 +25,8 @@ public class PublicProfileController {
                         profile.getLocation(),
                         profile.getGithubUrl(),
                         profile.getLinkedinUrl(),
-                        profile.getResumeUrl(),
-                        profile.getEmail()
+                        profile.getEmail(),
+                        profile.getS3Key()
                 ));
     }
 }

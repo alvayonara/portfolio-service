@@ -39,7 +39,7 @@ CREATE TABLE IF NOT EXISTS profile (
 
     github_url   VARCHAR(255),
     linkedin_url VARCHAR(255),
-    resume_url   VARCHAR(255),
+    s3_key   VARCHAR(255) DEFAULT NULL,
 
     created_at   TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
     updated_at   TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP
