@@ -7,7 +7,7 @@ public record PublicProfileDto(
         String location,
         String githubUrl,
         String linkedinUrl,
-        String resumeUrl,
-        String email
+        String email,
+        String s3Key
 ) {
 }

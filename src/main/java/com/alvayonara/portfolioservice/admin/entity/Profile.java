@@ -18,7 +18,7 @@ public class Profile {
     private String email;
     private String githubUrl;
     private String linkedinUrl;
-    private String resumeUrl;
+    private String s3Key;
     private Instant createdAt;
     private Instant updatedAt;
 }
