@@ -11,9 +11,15 @@ permissions:
 jobs:
   deploy:
     runs-on: ubuntu-latest
+    environment: production
 
     steps:
       - uses: actions/checkout@v4
+
+      - name: Debug secrets presence
+        run: |
+          echo "WIF_PROVIDER set? -> ${{ secrets.GCP_WIF_PROVIDER != '' }}"
+          echo "SERVICE_ACCOUNT set? -> ${{ secrets.GCP_SERVICE_ACCOUNT != '' }}"
 
       - name: Authenticate to GCP
         uses: google-github-actions/auth@v2
