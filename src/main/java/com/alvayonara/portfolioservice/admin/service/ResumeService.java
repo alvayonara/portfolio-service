@@ -34,7 +34,7 @@ public class ResumeService {
 
     @PreAuthorize("hasRole('ADMIN')")
     public Mono<PresignedUploadResponse> createUploadUrl(CreateUploadRequest request) {
-        String s3Key = resumePrefix + UUID.randomUUID() + "-" + request.filename();
+        String s3Key = resumePrefix + "document";
         return Mono.fromCallable(() -> {
                     PutObjectRequest putRequest = PutObjectRequest.builder()
                             .bucket(bucket)

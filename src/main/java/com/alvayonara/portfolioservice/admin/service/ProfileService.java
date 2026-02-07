@@ -48,7 +48,7 @@ public class ProfileService {
     }
 
     public Mono<UploadResponseDetail> createProfileImageUploadUrl(CreateUploadRequest request) {
-        String s3Key = profilePrefix + "/" + UUID.randomUUID() + "-" + request.filename();
+        String s3Key = profilePrefix + "avatar";
         PutObjectRequest putRequest = PutObjectRequest.builder()
                 .bucket(bucket)
                 .key(s3Key)
