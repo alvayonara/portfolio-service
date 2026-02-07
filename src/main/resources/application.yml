@@ -49,3 +49,7 @@ aws:
     secret-key: ${S3_SECRET_KEY}
     resume-prefix: ${S3_RESUME_PREFIX}
     project-prefix: ${S3_PROJECT_PREFIX}
+
+app:
+  cors:
+    allowed-origins: ${CORS_ALLOWED_ORIGINS}
