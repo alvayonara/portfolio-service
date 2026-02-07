@@ -4,9 +4,9 @@ spring:
   main:
     web-application-type: reactive
   r2dbc:
-    url: ${DB_URL}
-    username: ${DB_USERNAME}
-    password: ${DB_PASSWORD}
+    url: ${SPRING_R2DBC_URL}
+    username: ${SPRING_R2DBC_USERNAME}
+    password: ${SPRING_R2DBC_PASSWORD}
   sql:
     init:
       mode: always
@@ -35,7 +35,8 @@ server:
 
 logging:
   level:
-    root: INFO
+    io.r2dbc.mysql.QUERY: DEBUG
+    io.r2dbc.mysql.PARAM: DEBUG
 
 jwt:
   keyId: ${JWT_KEY_ID}
@@ -49,3 +50,7 @@ aws:
     secret-key: ${S3_SECRET_KEY}
     resume-prefix: ${S3_RESUME_PREFIX}
     project-prefix: ${S3_PROJECT_PREFIX}
+
+app:
+  cors:
+    allowed-origins: ${CORS_ALLOWED_ORIGINS}

@@ -30,6 +30,8 @@ public class ProjectService {
     private String bucket;
     @Value("${aws.s3.project-prefix}")
     private String projectPrefix;
+    @Value("${aws.region}")
+    private String region;
 
     @PreAuthorize("hasRole('ADMIN')")
     public Mono<Project> createDraft() {
@@ -53,11 +55,11 @@ public class ProjectService {
                             .contentType(request.contentType())
                             .build();
                     PutObjectPresignRequest presignRequest = PutObjectPresignRequest.builder()
-                                    .putObjectRequest(putRequest)
-                                    .signatureDuration(Duration.ofMinutes(10))
-                                    .build();
+                            .putObjectRequest(putRequest)
+                            .signatureDuration(Duration.ofMinutes(10))
+                            .build();
                     String uploadUrl = s3Presigner.presignPutObject(presignRequest).url().toString();
-                    String publicUrl = "https://" + bucket + ".s3.amazonaws.com/" + s3Key;
+                    String publicUrl = "https://" + bucket + ".s3." + region + ".amazonaws.com/" + s3Key;
                     return projectRepository.save(project).thenReturn(new PresignedUploadResponse(uploadUrl, publicUrl));
                 });
     }
