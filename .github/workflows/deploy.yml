@@ -52,6 +52,7 @@ jobs:
             --set-env-vars "REDIS_PORT=${{ secrets.REDIS_PORT }}" \
             --set-env-vars "REDIS_USERNAME=${{ secrets.REDIS_USERNAME }}" \
             --set-env-vars "REDIS_PASSWORD=${{ secrets.REDIS_PASSWORD }}" \
+            --set-env-vars "REDIS_SSL_ENABLED=${{ secrets.REDIS_SSL_ENABLED }}" \
             --set-env-vars "MAIL_HOST=${{ secrets.MAIL_HOST }}" \
             --set-env-vars "MAIL_PORT=${{ secrets.MAIL_PORT }}" \
             --set-env-vars "MAIL_USERNAME=${{ secrets.MAIL_USERNAME }}" \
