@@ -5,6 +5,7 @@ CREATE TABLE IF NOT EXISTS projects (
     tech_stack VARCHAR(255) DEFAULT NULL,
     repo_url VARCHAR(255) DEFAULT NULL,
     s3_key VARCHAR(255) DEFAULT NULL,
+    thumbnail_s3_key VARCHAR(255) DEFAULT NULL,
     published BOOLEAN DEFAULT FALSE,
     created_at TIMESTAMP,
     updated_at TIMESTAMP

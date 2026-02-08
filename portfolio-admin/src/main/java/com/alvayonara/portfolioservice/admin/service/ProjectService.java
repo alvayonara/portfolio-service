@@ -49,6 +49,20 @@ public class ProjectService {
                 });
     }
 
+    public Mono<PresignedUploadResponse> createProjectThumbnailUploadUrl(Long projectId, CreateUploadRequest request) {
+        return projectRepository.findById(projectId)
+                .switchIfEmpty(Mono.error(new RuntimeException("Project not found")))
+                .flatMap(project -> {
+                    String s3Key = projectPrefix + projectId + "/thumbnail-" + UUID.randomUUID() + "-" + request.filename();
+                    project.setThumbnailS3Key(s3Key);
+                    project.setUpdatedAt(Instant.now());
+                    
+                    S3Service.PresignedUploadUrl uploadUrl = s3Service.generatePresignedUploadUrl(s3Key, request.contentType());
+                    return projectRepository.save(project)
+                            .thenReturn(new PresignedUploadResponse(uploadUrl.uploadUrl(), uploadUrl.publicUrl()));
+                });
+    }
+
     @PreAuthorize("hasRole('ADMIN')")
     public Mono<Project> update(Long id, Project updated) {
         return projectRepository.findById(id)
