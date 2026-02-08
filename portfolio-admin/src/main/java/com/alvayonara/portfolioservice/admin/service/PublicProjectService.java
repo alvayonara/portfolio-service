@@ -37,7 +37,8 @@ public class PublicProjectService {
                 project.getDescription(),
                 project.getTechStack(),
                 project.getRepoUrl(),
-                project.getS3Key()
+                project.getS3Key(),
+                project.getThumbnailS3Key()
         );
     }
 }

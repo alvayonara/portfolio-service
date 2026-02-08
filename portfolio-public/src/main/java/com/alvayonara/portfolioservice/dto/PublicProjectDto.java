@@ -6,6 +6,7 @@ public record PublicProjectDto(
         String description,
         String techStack,
         String repoUrl,
-        String s3Key
+        String s3Key,
+        String thumbnailS3Key
 ) {
 }

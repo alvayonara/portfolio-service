@@ -27,6 +27,11 @@ public class ProjectAdminController {
         return projectService.createProjectImageUploadUrl(id, request);
     }
 
+    @PostMapping("/{id}/thumbnail/upload-url")
+    public Mono<PresignedUploadResponse> createThumbnailUploadUrl(@PathVariable Long id, @RequestBody CreateUploadRequest request) {
+        return projectService.createProjectThumbnailUploadUrl(id, request);
+    }
+
     @PutMapping("/{id}")
     public Mono<Project> update(@PathVariable Long id, @RequestBody Project project) {
         return projectService.update(id, project);
