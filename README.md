@@ -1,6 +1,6 @@
-# Portfolio Service | Java + SpringBoot + WebFlux + Redis + MySQL
+# Portfolio Service
 
-This is Spring Boot service for managing portfolio. Built with multi-module setup so admin and public APIs are separated. This repo has been developed and used for my portfolio project (visit: https://alvayonara.com/).
+This is Spring Boot service for managing portfolio. Built with multi-module setup, to separate admin and public APIs logic. This repo has been developed and used for my portfolio project (visit: https://alvayonara.com/).
 
 ## What's Inside?
 
@@ -48,15 +48,11 @@ export JAVA_HOME=$(/usr/libexec/java_home -v 21)
 
 Check Swagger docs at: `http://localhost:8080/swagger-ui.html`
 
-## Main Features
-
-Separated into modules for easier maintenance, fast and non blocking. All S3 upload logic in one place. Admin pages need JWT login. Public pages have rate limiting. This project is ready to deploy on Cloud Run.
-
 ## What's Next?
 
-Planning to add more improvements:
+I am planning to add more improvements.
 
-- Unit tests for all services and controllers
+- Unit tests to all services and controllers
 - Run tests in GitHub Actions before deploying
 - SonarQube for code quality check
 - Integration tests for API endpoints
